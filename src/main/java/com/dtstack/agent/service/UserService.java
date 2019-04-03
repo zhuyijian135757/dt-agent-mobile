@@ -72,8 +72,25 @@ public class UserService {
     }
 
 
-    public UserVo getAllUser(){
-        return null;
+    /**
+     * 获取所有用户信息
+     * @return
+     */
+    public Object getAllUser(){
+        try{
+            URI uri=UriComponentsBuilder.fromUriString(newLand.getAllUserUrl())
+                    .build().toUri();
+            ResponseEntity<R<Object>> result=restTemplate.exchange(uri, HttpMethod.GET,
+                    HttpEntity.EMPTY,new ParameterizedTypeReference<R<Object>>() {});
+            if(result.getStatusCodeValue()==HttpStatus.OK.value()){
+                return   result.getBody().getData();
+            }else {
+                throw new BizException(String.format("返回响应码:{}, 内容:{}",result.getStatusCodeValue(),result.getBody()));
+            }
+        }catch(Exception e){
+            log.info("获取用户信息失败",e);
+            throw new BizException(e);
+        }
     }
 
     /**

@@ -56,8 +56,8 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/getAllUser", method = RequestMethod.GET)
-    public R<String> getAllUser(){
-        return new APITemplate<String>(){
+    public R<Object> getAllUser(){
+        return new APITemplate<Object>(){
 
             @Override
             protected void checkParams() throws IllegalArgumentException {
@@ -65,8 +65,8 @@ public class UserController {
             }
 
             @Override
-            protected String process() throws BizException {
-                return null;
+            protected Object process() throws BizException {
+                return userService.getAllUser();
             }
         }.execute();
     }
