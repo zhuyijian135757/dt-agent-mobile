@@ -27,3 +27,21 @@ HELP.md
 
 ### VS Code ###
 .vscode/
+
+**/.settings/*
+*/target/*
+*/.svn/*
+*/.classpath
+*/.project
+.settings/*
+.svn/*
+.classpath
+.project
+**/*.log
+.settings/
+target/
+.idea/
+.scannerwork
+*.iml
+**/rebel.xml
+logs/
