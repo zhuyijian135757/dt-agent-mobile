@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+    <include resource="com/dtstack/plat/lang/logging/logback/defaults-logback-spring.xml"/>
+    <logger name="org.springframework.web" level="DEBUG"/>
+    <logger name="com.lining.back" level="DEBUG"/>
+</configuration>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+    <include resource="com/dtstack/plat/lang/logging/logback/defaults-product.xml"/>
+    <logger name="org.springframework.web" level="DEBUG"/>
+    <logger name="com.mobile.agent" level="TRACE"/>
+</configuration>
