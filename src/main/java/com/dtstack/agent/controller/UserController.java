@@ -129,6 +129,7 @@ public class UserController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public R<Object> login(@RequestParam("verifyCode") String verifyCode,
+                           @RequestParam("randomSeq") String randomSeq,
                            @RequestParam("platName") String platName,
                            @RequestParam("targetUri") String platUrl,
                            HttpServletRequest  request,
@@ -144,7 +145,7 @@ public class UserController {
 
             @Override
             protected Boolean process() throws BizException {
-                userService.login(verifyCode,platName,platUrl,request,response);
+                userService.login(verifyCode,randomSeq,platName,platUrl,request,response);
                 return null;
             }
         }.execute();

@@ -112,10 +112,10 @@ public class UserService {
      * @param platUrl
      * @param response
      */
-    public void login(String verifyCode, String platName, String platUrl, HttpServletRequest request, HttpServletResponse response){
+    public void login(String verifyCode,String randomSeq, String platName, String platUrl, HttpServletRequest request, HttpServletResponse response){
         try{
             URI uri=UriComponentsBuilder.fromUriString(newLand.getAuthUrl())
-                    .queryParam("verifyCode",verifyCode).queryParam("randomSeq",Utils.getRandomSeq())
+                    .queryParam("verifyCode",verifyCode).queryParam("randomSeq",randomSeq)
                     .build().toUri();
             ResponseEntity<R<UserVo>> result=restTemplate.exchange(uri, HttpMethod.GET,
                     HttpEntity.EMPTY,new ParameterizedTypeReference<R<UserVo>>() {});
