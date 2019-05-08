@@ -1,5 +1,7 @@
 package com.dtstack.agent.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.dtstack.agent.lang.Api;
 import com.dtstack.agent.service.CookieService;
 import com.dtstack.plat.lang.exception.BizException;
@@ -11,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @program: dt-mobile-agent
@@ -80,8 +80,9 @@ public class CookieController {
     @RequestMapping(value = "/validCookie", method = RequestMethod.GET)
     public R<Object> validCookie(@RequestParam("platName") String platName,
                                  @RequestParam("cookieValue") String cookieValue,
+        @RequestParam("platUrl") String platUrl,
                                  HttpServletRequest request){
-        return cookieService.validCookie(platName,cookieValue,request);
+        return cookieService.validCookie(platName, cookieValue, request, platUrl);
     }
 
 

@@ -1,5 +1,11 @@
 package com.dtstack.agent.service;
 
+import java.net.URI;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.dtstack.agent.dao.CookieDao;
 import com.dtstack.agent.lang.Utils;
 import com.dtstack.agent.prop.NewLand;
@@ -17,11 +23,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.net.URI;
 
 /**
  * @program: dt-mobile-agent
@@ -154,7 +155,7 @@ public class UserService {
         if(!result){
             throw new BizException("登出失败");
         }else{
-            return baseService.getNewLandLoginUrl(platName);
+            return baseService.getNewLandLoginUrl(platName, null);
         }
     }
 
