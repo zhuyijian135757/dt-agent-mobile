@@ -43,26 +43,60 @@
 
     </dependencies>
 
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <excludes>
+                        <exclude>application*.yml</exclude>
+                        <exclude>bootstrap.yml</exclude>
+                        <exclude>logback-spring.xml</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <profiles>
         <profile>
-            <id>product</id>
+            <id>dev</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <version>3.0.2</version>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>3.0.0</version>
                         <configuration>
-                            <excludes>
-                                <exclude>application*.yml</exclude>
-                                <exclude>bootstrap.yml</exclude>
-                                <exclude>logback-spring.xml</exclude>
-                            </excludes>
+                            <finalName>dt-mobile-agent</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/main/assembly/assembly-dev.xml</descriptor>
+                            </descriptors>
                         </configuration>
+                        <executions>
+                            <execution>
+                                <id>make-assembly</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>product</id>
+            <build>
+                <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
                         <version>3.0.0</version>

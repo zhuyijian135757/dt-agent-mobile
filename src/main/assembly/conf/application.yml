@@ -1,13 +1,13 @@
 server:
-  port: 8080
+  port: 7070
 proxy:
-  loginUrl: http://localhost:8080/api/v1/user/login
+  loginUrl: http://10.47.197.13:7070/api/v1/user/login
 plats:
   cookieMaps: {dataPin : dpc, quickBi: qbc}
-  platMaps: {dataPin : http://baidu.com, quickBi: http://163.com}
+  platMaps: {dataPin : http://baidu.com, quickBi: http://10.48.236.251:83}
   expireTimeMaps: {dataPin : 3600, quickBi: 3600}
 newland:
   loginUrl: http://ip:port/path
-  authUrl: http://localhost:8080/api/v1/user-test/auth
-  sigUserUrl: http://localhost:8080/api/v1/user-test/siguv
-  allUserUrl: http://localhost:8080/api/v1/user-test/alluv
+  authUrl: http://10.48.134.112:32005/nl-edc-cct-system/v1/sso
+  sigUserUrl: http://10.48.134.112:32005/nl-edc-cct-system/v1/qryUser
+  allUserUrl: http://10.48.134.112:32005/nl-edc-cct-system/v1/qryTenant

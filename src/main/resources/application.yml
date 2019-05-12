@@ -1,14 +1,14 @@
 server:
-  port: 8080
+  port: 7070
 proxy:
-  loginUrl: http://localhost:8080/api/v1/user/login
+  loginUrl: http://a.yidong.com:7070/api/v1/user/login
 plats:
   cookieMaps: {dataPin : dpc, quickBi: qbc}
-  platMaps: {dataPin : http://baidu.com, quickBi: http://163.com}
+  platMaps: {dataPin : http://b.yidong.com:8088/, quickBi: http://b.yidong.com:8088/}
   expireTimeMaps: {dataPin : 3600, quickBi: 3600}
 newland:
   loginUrl: http://ip:port/path
-  authUrl: http://localhost:8080/api/v1/user-test/auth
-  sigUserUrl: http://localhost:8080/api/v1/user-test/siguv
-  allUserUrl: http://localhost:8080/api/v1/user-test/alluv
+  authUrl: http://a.yidong.com:7070/api/v1/user-test/auth
+  sigUserUrl: http://a.yidong.com:7070/api/v1/user-test/siguv
+  allUserUrl: http://a.yidong.com:7070/api/v1/user-test/alluv
 
