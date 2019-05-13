@@ -1,5 +1,7 @@
 package com.dtstack.agent.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.dtstack.agent.dao.CookieDao;
 import com.dtstack.agent.prop.Plats;
 import com.dtstack.agent.vo.UserVo;
@@ -8,8 +10,6 @@ import com.dtstack.plat.lang.web.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -64,13 +64,15 @@ public class CookieService {
      * 检验cookie有效性，成功返回用户信息，失败返回重定向地址
      * @param platName
      * @param cookieValue
+     * @param platUrl
      * @return
      */
-    public R<Object> validCookie(String platName,String cookieValue,HttpServletRequest request){
+    public R<Object> validCookie(String platName, String cookieValue, HttpServletRequest request,
+        String platUrl) {
         UserVo uv= cookieDao.getCookie(platName,cookieValue);
         Long expireTime= cookieDao.getCookieExpireTime(platName,cookieValue);
         if(uv==null || expireTime<System.currentTimeMillis()){
-            String newLandLoginUrl=baseService.getNewLandLoginUrl(platName);
+            String newLandLoginUrl = baseService.getNewLandLoginUrl(platName, platUrl);
             return R.fail().setData(newLandLoginUrl);
         }else{
             String  platExpireTime=plats.getExpireTimeMaps().get(platName);
