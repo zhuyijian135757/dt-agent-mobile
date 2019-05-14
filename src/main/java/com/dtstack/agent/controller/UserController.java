@@ -2,6 +2,7 @@ package com.dtstack.agent.controller;
 
 import com.dtstack.agent.lang.Api;
 import com.dtstack.agent.service.UserService;
+import com.dtstack.agent.vo.UrlVo;
 import com.dtstack.agent.vo.UserVo;
 import com.dtstack.plat.lang.exception.BizException;
 import com.dtstack.plat.lang.web.R;
@@ -101,9 +102,9 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public R<String> logout(@RequestParam("platName") String platName,
-                            @RequestParam("cookieValue") String cookieValue){
-        return new APITemplate<String>(){
+    public R<UrlVo> logout(@RequestParam("platName") String platName,
+                           @RequestParam("cookieValue") String cookieValue){
+        return new APITemplate<UrlVo>(){
 
             @Override
             protected void checkParams() throws IllegalArgumentException {
@@ -112,7 +113,7 @@ public class UserController {
             }
 
             @Override
-            protected String process() throws BizException {
+            protected UrlVo process() throws BizException {
                 return userService.logout(platName,cookieValue);
             }
         }.execute();

@@ -7,9 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.dtstack.agent.dao.CookieDao;
+import com.dtstack.agent.dto.SsoDto;
+import com.dtstack.agent.dto.UserDto;
 import com.dtstack.agent.lang.Utils;
 import com.dtstack.agent.prop.NewLand;
 import com.dtstack.agent.prop.Plats;
+import com.dtstack.agent.vo.UrlVo;
 import com.dtstack.agent.vo.UserVo;
 import com.dtstack.plat.lang.exception.BizException;
 import com.dtstack.plat.lang.web.R;
@@ -57,10 +60,13 @@ public class UserService {
     public UserVo getUser(String userId){
         try{
             URI uri=UriComponentsBuilder.fromUriString(newLand.getSigUserUrl())
-                    .queryParam("userId",userId)
                     .build().toUri();
+            UserDto userDto=new UserDto(userId);
+            HttpEntity<UserDto> httpEntity=new HttpEntity<UserDto>(userDto);
+            httpEntity.getHeaders().add("Content-Type","application/json");;
+
             ResponseEntity<R<UserVo>> result=restTemplate.exchange(uri, HttpMethod.POST,
-                    HttpEntity.EMPTY,new ParameterizedTypeReference<R<UserVo>>() {});
+                    httpEntity,new ParameterizedTypeReference<R<UserVo>>() {});
             if(result.getStatusCodeValue()==HttpStatus.OK.value()){
                 return   result.getBody().getData();
             }else {
@@ -116,10 +122,14 @@ public class UserService {
     public void login(String verifyCode,String randomSeq, String platName, String platUrl, HttpServletRequest request, HttpServletResponse response){
         try{
             URI uri=UriComponentsBuilder.fromUriString(newLand.getAuthUrl())
-                    .queryParam("verifyCode",verifyCode).queryParam("randomSeq",randomSeq)
                     .build().toUri();
+
+            SsoDto ssoDto=new SsoDto(verifyCode,randomSeq);
+            HttpEntity<SsoDto> httpEntity=new HttpEntity<SsoDto>(ssoDto);
+            httpEntity.getHeaders().add("Content-Type","application/json");;
+
             ResponseEntity<R<UserVo>> result=restTemplate.exchange(uri, HttpMethod.POST,
-                    HttpEntity.EMPTY,new ParameterizedTypeReference<R<UserVo>>() {});
+                    httpEntity,new ParameterizedTypeReference<R<UserVo>>() {});
             if(result.getStatusCodeValue()==HttpStatus.OK.value()){
                 String cookieValue=Utils.getRandomCookie();
                 String cookieName=plats.getCookieMaps().get(platName);
@@ -150,12 +160,14 @@ public class UserService {
      * @param cookieValue
      * @return
      */
-    public String logout(String platName,String cookieValue){
+    public UrlVo logout(String platName,String cookieValue){
         boolean result= cookieDao.expireCookie(platName,cookieValue);
         if(!result){
             throw new BizException("登出失败");
         }else{
-            return baseService.getNewLandLoginUrl(platName, null);
+            UrlVo url=new UrlVo();
+            url.setRedirect(baseService.getNewLandLoginUrl(platName, null));
+            return url;
         }
     }
 

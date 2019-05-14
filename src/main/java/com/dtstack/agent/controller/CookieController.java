@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.dtstack.agent.lang.Api;
 import com.dtstack.agent.service.CookieService;
+import com.dtstack.agent.vo.CookieVo;
+import com.dtstack.agent.vo.TimeVo;
 import com.dtstack.plat.lang.exception.BizException;
 import com.dtstack.plat.lang.web.R;
 import com.dtstack.plat.lang.web.template.APITemplate;
@@ -35,8 +37,8 @@ public class CookieController {
      * @return
      */
     @RequestMapping(value = "/getPlatCookieName", method = RequestMethod.GET)
-    public R<String> getPlatName(@RequestParam("platName") String platName){
-        return new APITemplate<String>(){
+    public R<CookieVo> getPlatName(@RequestParam("platName") String platName){
+        return new APITemplate<CookieVo>(){
 
             @Override
             protected void checkParams() throws IllegalArgumentException {
@@ -44,7 +46,7 @@ public class CookieController {
             }
 
             @Override
-            protected String process() throws BizException {
+            protected CookieVo process() throws BizException {
                 return cookieService.getPlatCookieName(platName);
             }
         }.execute();
@@ -56,8 +58,8 @@ public class CookieController {
      * @return
      */
     @RequestMapping(value = "/getExpireTime", method = RequestMethod.GET)
-    public R<String> getExpireTime(@RequestParam("platName") String platName){
-        return new APITemplate<String>(){
+    public R<TimeVo> getExpireTime(@RequestParam("platName") String platName){
+        return new APITemplate<TimeVo>(){
 
             @Override
             protected void checkParams() throws IllegalArgumentException {
@@ -65,7 +67,7 @@ public class CookieController {
             }
 
             @Override
-            protected String process() throws BizException {
+            protected TimeVo process() throws BizException {
                 return cookieService.getExpireTime(platName);
             }
         }.execute();
@@ -80,7 +82,7 @@ public class CookieController {
     @RequestMapping(value = "/validCookie", method = RequestMethod.GET)
     public R<Object> validCookie(@RequestParam("platName") String platName,
                                  @RequestParam("cookieValue") String cookieValue,
-        @RequestParam("platUrl") String platUrl,
+        @RequestParam(value="platUrl",required = false) String platUrl,
                                  HttpServletRequest request){
         return cookieService.validCookie(platName, cookieValue, request, platUrl);
     }

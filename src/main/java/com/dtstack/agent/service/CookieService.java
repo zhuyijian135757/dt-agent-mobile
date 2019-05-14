@@ -4,6 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.dtstack.agent.dao.CookieDao;
 import com.dtstack.agent.prop.Plats;
+import com.dtstack.agent.vo.CookieVo;
+import com.dtstack.agent.vo.TimeVo;
+import com.dtstack.agent.vo.UrlVo;
 import com.dtstack.agent.vo.UserVo;
 import com.dtstack.plat.lang.exception.BizException;
 import com.dtstack.plat.lang.web.R;
@@ -35,10 +38,12 @@ public class CookieService {
      * @param platName
      * @return
      */
-    public String getPlatCookieName(String platName){
+    public CookieVo getPlatCookieName(String platName){
         String  platCookieName=plats.getCookieMaps().get(platName);
         if(!StringUtils.isEmpty(platCookieName)){
-            return platCookieName;
+            CookieVo cv=new CookieVo();
+            cv.setCookieName(platCookieName);
+            return cv;
         }else {
             throw new BizException(platName+" 平台不存在!");
         }
@@ -51,10 +56,12 @@ public class CookieService {
      * @param platName
      * @return
      */
-    public String getExpireTime(String platName){
+    public TimeVo getExpireTime(String platName){
         String  platExpireTime=plats.getExpireTimeMaps().get(platName);
+        TimeVo tv=new TimeVo();
+        tv.setExpireTime(platExpireTime);
         if(!StringUtils.isEmpty(platExpireTime)){
-            return platExpireTime;
+            return tv;
         }else {
             throw new BizException(platName+" 平台不存在!");
         }
@@ -73,7 +80,9 @@ public class CookieService {
         Long expireTime= cookieDao.getCookieExpireTime(platName,cookieValue);
         if(uv==null || expireTime<System.currentTimeMillis()){
             String newLandLoginUrl = baseService.getNewLandLoginUrl(platName, platUrl);
-            return R.fail().setData(newLandLoginUrl);
+            UrlVo url=new UrlVo();
+            url.setRedirect(newLandLoginUrl);
+            return R.fail().setData(url);
         }else{
             String  platExpireTime=plats.getExpireTimeMaps().get(platName);
             cookieDao.setCookieExpireTime(platName,cookieValue,platExpireTime);
