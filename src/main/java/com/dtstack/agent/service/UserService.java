@@ -59,7 +59,7 @@ public class UserService {
             URI uri=UriComponentsBuilder.fromUriString(newLand.getSigUserUrl())
                     .queryParam("userId",userId)
                     .build().toUri();
-            ResponseEntity<R<UserVo>> result=restTemplate.exchange(uri, HttpMethod.GET,
+            ResponseEntity<R<UserVo>> result=restTemplate.exchange(uri, HttpMethod.POST,
                     HttpEntity.EMPTY,new ParameterizedTypeReference<R<UserVo>>() {});
             if(result.getStatusCodeValue()==HttpStatus.OK.value()){
                 return   result.getBody().getData();
@@ -81,7 +81,7 @@ public class UserService {
         try{
             URI uri=UriComponentsBuilder.fromUriString(newLand.getAllUserUrl())
                     .build().toUri();
-            ResponseEntity<R<Object>> result=restTemplate.exchange(uri, HttpMethod.GET,
+            ResponseEntity<R<Object>> result=restTemplate.exchange(uri, HttpMethod.POST,
                     HttpEntity.EMPTY,new ParameterizedTypeReference<R<Object>>() {});
             if(result.getStatusCodeValue()==HttpStatus.OK.value()){
                 return   result.getBody().getData();
@@ -118,7 +118,7 @@ public class UserService {
             URI uri=UriComponentsBuilder.fromUriString(newLand.getAuthUrl())
                     .queryParam("verifyCode",verifyCode).queryParam("randomSeq",randomSeq)
                     .build().toUri();
-            ResponseEntity<R<UserVo>> result=restTemplate.exchange(uri, HttpMethod.GET,
+            ResponseEntity<R<UserVo>> result=restTemplate.exchange(uri, HttpMethod.POST,
                     HttpEntity.EMPTY,new ParameterizedTypeReference<R<UserVo>>() {});
             if(result.getStatusCodeValue()==HttpStatus.OK.value()){
                 String cookieValue=Utils.getRandomCookie();
