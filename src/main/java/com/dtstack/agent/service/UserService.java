@@ -1,6 +1,8 @@
 package com.dtstack.agent.service;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -19,11 +21,10 @@ import com.dtstack.plat.lang.web.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -125,8 +126,11 @@ public class UserService {
                     .build().toUri();
 
             SsoDto ssoDto=new SsoDto(verifyCode,randomSeq);
-            HttpEntity<SsoDto> httpEntity=new HttpEntity<SsoDto>(ssoDto);
-            httpEntity.getHeaders().add("Content-Type","application/json");;
+            MultiValueMap map=new HttpHeaders();
+            List<String> list=new ArrayList<>();
+            list.add("application/json");
+            map.put("Content-Type",list);
+            HttpEntity<SsoDto> httpEntity=new HttpEntity<SsoDto>(ssoDto,map);
 
             ResponseEntity<R<UserVo>> result=restTemplate.exchange(uri, HttpMethod.POST,
                     httpEntity,new ParameterizedTypeReference<R<UserVo>>() {});

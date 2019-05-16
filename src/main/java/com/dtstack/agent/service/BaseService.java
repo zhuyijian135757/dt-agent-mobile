@@ -41,9 +41,9 @@ public class BaseService {
             .queryParam("platName", platName).queryParam("targetUri", platUrl).toUriString();
 //        String newLandLoginUrl = UriComponentsBuilder.fromUriString(newLand.getLoginUrl())
 //            .queryParam("targetUri", proxyUrl).toUriString();
-        String newLandLoginUrl=newLand.getLoginUrl()+"&targetUri="+proxyUrl;
+       // String newLandLoginUrl=newLand.getLoginUrl()+"&targetUri="+proxyUrl;
 
-        return newLandLoginUrl;
+        return newLand.getLoginUrl();
     }
 
 }

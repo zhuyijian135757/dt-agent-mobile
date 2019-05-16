@@ -9,6 +9,7 @@ import com.dtstack.agent.vo.TimeVo;
 import com.dtstack.plat.lang.exception.BizException;
 import com.dtstack.plat.lang.web.R;
 import com.dtstack.plat.lang.web.template.APITemplate;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author: terry.zhu
  * @create: 2019-04-02 11:22
  **/
-
+@Slf4j
 @RestController
 @RequestMapping(Api.API_PREFIX + "/cookie")
 public class CookieController {
@@ -84,6 +85,8 @@ public class CookieController {
                                  @RequestParam("cookieValue") String cookieValue,
         @RequestParam(value="platUrl",required = false) String platUrl,
                                  HttpServletRequest request){
+
+        log.info("validCookie platUrl{}",platUrl);
         return cookieService.validCookie(platName, cookieValue, request, platUrl);
     }
 

@@ -4,12 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.dtstack.agent.dao.CookieDao;
 import com.dtstack.agent.prop.Plats;
-import com.dtstack.agent.vo.CookieVo;
-import com.dtstack.agent.vo.TimeVo;
-import com.dtstack.agent.vo.UrlVo;
-import com.dtstack.agent.vo.UserVo;
+import com.dtstack.agent.vo.*;
 import com.dtstack.plat.lang.exception.BizException;
 import com.dtstack.plat.lang.web.R;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -21,6 +19,7 @@ import org.springframework.util.StringUtils;
  * @author: terry.zhu
  * @create: 2019-04-02 11:50
  **/
+@Slf4j
 @Service
 public class CookieService {
 
@@ -79,15 +78,25 @@ public class CookieService {
         UserVo uv= cookieDao.getCookie(platName,cookieValue);
         Long expireTime= cookieDao.getCookieExpireTime(platName,cookieValue);
         if(uv==null || expireTime<System.currentTimeMillis()){
+            log.info("uv:{}",uv==null);
+            //log.info("time:{}",expireTime<System.currentTimeMillis());
+            log.info("expireTime:{}",expireTime);
+            log.info("current:{}",System.currentTimeMillis());
+
             String newLandLoginUrl = baseService.getNewLandLoginUrl(platName, platUrl);
             UrlVo url=new UrlVo();
+            log.info("validCookie url:{}",url);
             url.setRedirect(newLandLoginUrl);
             return R.fail().setData(url);
         }else{
             String  platExpireTime=plats.getExpireTimeMaps().get(platName);
             cookieDao.setCookieExpireTime(platName,cookieValue,platExpireTime);
-            return R.ok().setData(uv);
+            Uv uservo=new Uv();
+            uservo.setUser(uv);
+
+            return R.ok().setData(uservo);
         }
+
     }
 
 

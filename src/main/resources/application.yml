@@ -11,4 +11,3 @@ newland:
   authUrl: http://a.yidong.com:7070/api/v1/user-test/auth
   sigUserUrl: http://a.yidong.com:7070/api/v1/user-test/siguv
   allUserUrl: http://a.yidong.com:7070/api/v1/user-test/alluv
-

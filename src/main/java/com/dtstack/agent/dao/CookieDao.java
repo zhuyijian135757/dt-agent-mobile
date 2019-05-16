@@ -56,6 +56,7 @@ public class CookieDao {
      */
     public UserVo getCookie(String platName,String cookieValue){
         String key=String.format("%s-%s",platName,cookieValue);
+        log.info("get cookie: {}",key);
         return cookieDb.get(key);
     }
 
@@ -70,7 +71,7 @@ public class CookieDao {
         try{
             String key=String.format("%s-%s",platName,cookieValue);
             String expireTime=plats.getExpireTimeMaps().get(platName);
-
+            log.info("put cookie: {}, uservo: {}",key,userVo.toString());
             cookieDb.put(key,userVo);
             cookieTimeDb.put(key,System.currentTimeMillis()+Long.parseLong(expireTime)*1000);
         }catch (Exception e){
