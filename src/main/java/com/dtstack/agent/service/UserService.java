@@ -63,8 +63,11 @@ public class UserService {
             URI uri=UriComponentsBuilder.fromUriString(newLand.getSigUserUrl())
                     .build().toUri();
             UserDto userDto=new UserDto(userId);
-            HttpEntity<UserDto> httpEntity=new HttpEntity<UserDto>(userDto);
-            httpEntity.getHeaders().add("Content-Type","application/json");;
+            MultiValueMap map=new HttpHeaders();
+            List<String> list=new ArrayList<>();
+            list.add("application/json");
+            map.put("Content-Type",list);
+            HttpEntity<UserDto> httpEntity=new HttpEntity<UserDto>(userDto,map);
 
             ResponseEntity<R<UserVo>> result=restTemplate.exchange(uri, HttpMethod.POST,
                     httpEntity,new ParameterizedTypeReference<R<UserVo>>() {});
