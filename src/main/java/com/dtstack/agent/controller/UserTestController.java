@@ -5,10 +5,7 @@ import com.dtstack.agent.vo.UserVo;
 import com.dtstack.plat.lang.exception.BizException;
 import com.dtstack.plat.lang.web.R;
 import com.dtstack.plat.lang.web.template.APITemplate;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @program: dt-mobile-agent
@@ -90,8 +87,8 @@ public class UserTestController {
      * 测试用途
      * @return
      */
-    @RequestMapping(value = "/alluv", method = RequestMethod.GET)
-    public R<UserVo> allUvUrl(){
+    @RequestMapping(value = "/alluv", method = RequestMethod.POST)
+    public R<UserVo> allUvUrl(@RequestBody(required=true) UserVo userVo){
         return new APITemplate<UserVo>(){
             @Override
             protected void checkParams() throws IllegalArgumentException {

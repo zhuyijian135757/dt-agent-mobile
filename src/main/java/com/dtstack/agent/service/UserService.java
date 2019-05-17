@@ -1,13 +1,16 @@
 package com.dtstack.agent.service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.dtstack.agent.dao.CookieDao;
 import com.dtstack.agent.dto.SsoDto;
 import com.dtstack.agent.dto.UserDto;
@@ -16,9 +19,11 @@ import com.dtstack.agent.prop.NewLand;
 import com.dtstack.agent.prop.Plats;
 import com.dtstack.agent.vo.UrlVo;
 import com.dtstack.agent.vo.UserVo;
+import com.dtstack.plat.lang.base.JSONs;
 import com.dtstack.plat.lang.exception.BizException;
 import com.dtstack.plat.lang.web.R;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -91,12 +96,30 @@ public class UserService {
         try{
             URI uri=UriComponentsBuilder.fromUriString(newLand.getAllUserUrl())
                     .build().toUri();
-            ResponseEntity<R<Object>> result=restTemplate.exchange(uri, HttpMethod.POST,
-                    HttpEntity.EMPTY,new ParameterizedTypeReference<R<Object>>() {});
-            if(result.getStatusCodeValue()==HttpStatus.OK.value()){
-                return   result.getBody().getData();
+            URL url=new URL(uri.toString());
+            HttpURLConnection httpURLConnection= (HttpURLConnection) url.openConnection();
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setRequestProperty("Content-Type","application/json");
+            httpURLConnection.connect();
+            OutputStream outputStream=httpURLConnection.getOutputStream();
+            outputStream.write("{}".getBytes());
+            outputStream.flush();
+            outputStream.close();
+            int respSt=httpURLConnection.getResponseCode();
+            ByteArrayOutputStream ba=new ByteArrayOutputStream();
+            InputStream inputStream=httpURLConnection.getInputStream();
+            IOUtils.copy(inputStream,ba);
+            String message=new String(ba.toByteArray(),"utf-8");
+            inputStream.close();
+            httpURLConnection.disconnect();
+
+            R<Object> resp= (R<Object>) JSONs.fromJSON(message,R.class);
+            log.info("返回响应码:{},msg:{}, 内容:{}",respSt,message,resp.getData());
+            if(respSt==HttpStatus.OK.value()){
+                return   resp.getData();
             }else {
-                throw new BizException(String.format("返回响应码:{}, 内容:{}",result.getStatusCodeValue(),result.getBody()));
+                throw new BizException(String.format("返回响应码:{}, 内容:{}",respSt,resp.getData()));
             }
         }catch(Exception e){
             log.info("获取用户信息失败",e);
