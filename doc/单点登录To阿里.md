@@ -188,7 +188,7 @@ redirect回调顺序: 认证中心--->代理服务--->对接系统(dataPin,quick
 ``` 
 {
     "success": true,
-    "data": {
+    "data": [{
         "departId": "省公司ID",
         "departName": "省公司",
         "children": [
@@ -222,7 +222,7 @@ redirect回调顺序: 认证中心--->代理服务--->对接系统(dataPin,quick
                 ]
             }
         ]
-    }
+    }]
 }
 ```  
 
