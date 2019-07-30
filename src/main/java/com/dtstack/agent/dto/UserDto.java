@@ -1,5 +1,6 @@
 package com.dtstack.agent.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
@@ -11,6 +12,7 @@ import lombok.Data;
 @Data
 public class UserDto {
 
+    @JsonProperty("oneId")
     private String userId;
 
     public UserDto() { }

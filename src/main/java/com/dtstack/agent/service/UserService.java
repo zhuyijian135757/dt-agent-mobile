@@ -3,6 +3,7 @@ package com.dtstack.agent.service;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -19,9 +20,11 @@ import com.dtstack.agent.prop.NewLand;
 import com.dtstack.agent.prop.Plats;
 import com.dtstack.agent.vo.UrlVo;
 import com.dtstack.agent.vo.UserVo;
+import com.dtstack.agent.vo.V;
 import com.dtstack.plat.lang.base.JSONs;
 import com.dtstack.plat.lang.exception.BizException;
 import com.dtstack.plat.lang.web.R;
+import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,7 +95,7 @@ public class UserService {
      * 获取所有用户信息
      * @return
      */
-    public Object getAllUser(){
+    public List<UserVo> getAllUser(){
         try{
             URI uri=UriComponentsBuilder.fromUriString(newLand.getAllUserUrl())
                     .build().toUri();
@@ -114,7 +117,7 @@ public class UserService {
             inputStream.close();
             httpURLConnection.disconnect();
 
-            R<Object> resp= (R<Object>) JSONs.fromJSON(message,R.class);
+            R<List<UserVo>> resp= JSONs.fromJSON(message, new TypeReference<R<List<UserVo>>>() {});
             log.info("返回响应码:{},msg:{}, 内容:{}",respSt,message,resp.getData());
             if(respSt==HttpStatus.OK.value()){
                 return   resp.getData();
@@ -146,12 +149,13 @@ public class UserService {
      * @param platUrl
      * @param response
      */
-    public void login(String verifyCode,String randomSeq, String platName, String platUrl, HttpServletRequest request, HttpServletResponse response){
+    public void login(String verifyCode,String randomSeq,String tenantId, String platName,
+                      String platUrl, HttpServletRequest request, HttpServletResponse response){
         try{
             URI uri=UriComponentsBuilder.fromUriString(newLand.getAuthUrl())
                     .build().toUri();
 
-            SsoDto ssoDto=new SsoDto(verifyCode,randomSeq);
+            SsoDto ssoDto=new SsoDto(verifyCode,randomSeq,tenantId);
             MultiValueMap map=new HttpHeaders();
             List<String> list=new ArrayList<>();
             list.add("application/json");

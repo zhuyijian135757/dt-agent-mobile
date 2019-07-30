@@ -1,6 +1,5 @@
 package com.dtstack.agent.vo;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -13,10 +12,11 @@ import lombok.extern.slf4j.Slf4j;
  **/
 @Slf4j
 @Data
-public class UserVo {
+public class NewLandUserVo {
 
-    @JsonSetter("oneId")
     private String userId;
+
+    private String oneId;
 
     private String userName;
 

@@ -15,10 +15,18 @@ public class SsoDto {
 
     private String randomSeq;
 
+    private String tenantId;
+
     public SsoDto() { }
 
     public SsoDto(String verifyCode, String randomSeq) {
         this.verifyCode = verifyCode;
         this.randomSeq = randomSeq;
+    }
+
+    public SsoDto(String verifyCode, String randomSeq, String tenantId) {
+        this.verifyCode = verifyCode;
+        this.randomSeq = randomSeq;
+        this.tenantId = tenantId;
     }
 }

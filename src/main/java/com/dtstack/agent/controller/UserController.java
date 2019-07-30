@@ -24,6 +24,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -66,8 +67,8 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/getAllUser", method = RequestMethod.GET)
-    public R<Object> getAllUser(){
-        return new APITemplate<Object>(){
+    public R<List<UserVo>> getAllUser(){
+        return new APITemplate<List<UserVo>>(){
 
             @Override
             protected void checkParams() throws IllegalArgumentException {
@@ -75,7 +76,7 @@ public class UserController {
             }
 
             @Override
-            protected Object process() throws BizException {
+            protected List<UserVo> process() throws BizException {
                 return userService.getAllUser();
             }
         }.execute();
@@ -140,6 +141,7 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public R<Object> login(@RequestParam(value = "verify_code",required = false) String verifyCode,
                            @RequestParam(value="random_seq",required = false) String randomSeq,
+                           @RequestParam(value="tenantId",required = false) String tenantId,
                            @RequestParam("platName") String platName,
                            @RequestParam("targetUri") String platUrl,
                            HttpServletRequest  request,
@@ -153,13 +155,14 @@ public class UserController {
                 Assert.notNull(platUrl,"targetUri不能为空");
                 log.info("verify_code:{}",verifyCode);
                 log.info("random_seq:{}",randomSeq);
+                log.info("tenantId:{}",tenantId);
                 log.info("platName:{}",platName);
                 log.info("platUrl:{}",platUrl);
             }
 
             @Override
             protected Boolean process() throws BizException {
-                userService.login(verifyCode,randomSeq,platName,platUrl,request,response);
+                userService.login(verifyCode,randomSeq,tenantId,platName,platUrl,request,response);
                 return null;
             }
         }.execute();
