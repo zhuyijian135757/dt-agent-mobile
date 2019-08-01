@@ -3,7 +3,6 @@ package com.dtstack.agent.service;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -20,7 +19,6 @@ import com.dtstack.agent.prop.NewLand;
 import com.dtstack.agent.prop.Plats;
 import com.dtstack.agent.vo.UrlVo;
 import com.dtstack.agent.vo.UserVo;
-import com.dtstack.agent.vo.V;
 import com.dtstack.plat.lang.base.JSONs;
 import com.dtstack.plat.lang.exception.BizException;
 import com.dtstack.plat.lang.web.R;
@@ -31,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -68,9 +65,13 @@ public class UserService {
      */
     public UserVo getUser(String userId){
         try{
+
+            String newLandUserId=userId.substring(9);
+            log.info("oneId:{},userId:{}",userId,newLandUserId);
+
             URI uri=UriComponentsBuilder.fromUriString(newLand.getSigUserUrl())
                     .build().toUri();
-            UserDto userDto=new UserDto(userId);
+            UserDto userDto=new UserDto(newLandUserId);
             MultiValueMap map=new HttpHeaders();
             List<String> list=new ArrayList<>();
             list.add("application/json");

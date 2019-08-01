@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class UserDto {
 
-    @JsonProperty("oneId")
+    //@JsonProperty("oneId")
     private String userId;
 
     public UserDto() { }
