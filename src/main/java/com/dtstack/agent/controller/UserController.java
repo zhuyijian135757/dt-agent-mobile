@@ -141,7 +141,7 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public R<Object> login(@RequestParam(value = "verify_code",required = false) String verifyCode,
                            @RequestParam(value="random_seq",required = false) String randomSeq,
-                           @RequestParam(value="tenantId",required = false) String tenantId,
+                           @RequestParam(value="tenant_id",required = false) String tenantId,
                            @RequestParam("platName") String platName,
                            @RequestParam("targetUri") String platUrl,
                            HttpServletRequest  request,
