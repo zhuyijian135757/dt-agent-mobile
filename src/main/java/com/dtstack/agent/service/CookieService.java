@@ -78,14 +78,8 @@ public class CookieService {
         UserVo uv= cookieDao.getCookie(platName,cookieValue);
         Long expireTime= cookieDao.getCookieExpireTime(platName,cookieValue);
         if(uv==null || expireTime<System.currentTimeMillis()){
-            log.info("uv:{}",uv==null);
-            //log.info("time:{}",expireTime<System.currentTimeMillis());
-            log.info("expireTime:{}",expireTime);
-            log.info("current:{}",System.currentTimeMillis());
-
             String newLandLoginUrl = baseService.getNewLandLoginUrl(platName, platUrl);
             UrlVo url=new UrlVo();
-            log.info("validCookie url:{}",url);
             url.setRedirect(newLandLoginUrl);
             return R.fail().setData(url);
         }else{

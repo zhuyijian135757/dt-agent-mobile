@@ -65,8 +65,12 @@ public class UserService {
      */
     public UserVo getUser(String userId){
         try{
-
-            String newLandUserId=userId.substring(9);
+            String newLandUserId;
+            if(userId.length()>9){
+                newLandUserId=userId.substring(9);
+            }else{
+                newLandUserId=userId;
+            }
             log.info("oneId:{},userId:{}",userId,newLandUserId);
 
             URI uri=UriComponentsBuilder.fromUriString(newLand.getSigUserUrl())
