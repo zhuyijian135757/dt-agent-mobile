@@ -2,6 +2,7 @@ package com.dtstack.agent.controller;
 
 import com.dtstack.agent.lang.Api;
 import com.dtstack.agent.service.UserService;
+import com.dtstack.agent.vo.TenantVo;
 import com.dtstack.agent.vo.UrlVo;
 import com.dtstack.agent.vo.UserVo;
 import com.dtstack.plat.lang.base.JSONs;
@@ -67,8 +68,8 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/getAllUser", method = RequestMethod.GET)
-    public R<List<UserVo>> getAllUser(){
-        return new APITemplate<List<UserVo>>(){
+    public R<List<TenantVo>> getAllUser(){
+        return new APITemplate<List<TenantVo>>(){
 
             @Override
             protected void checkParams() throws IllegalArgumentException {
@@ -76,7 +77,7 @@ public class UserController {
             }
 
             @Override
-            protected List<UserVo> process() throws BizException {
+            protected List<TenantVo> process() throws BizException {
                 return userService.getAllUser();
             }
         }.execute();

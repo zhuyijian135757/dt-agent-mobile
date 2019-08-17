@@ -17,6 +17,7 @@ import com.dtstack.agent.dto.UserDto;
 import com.dtstack.agent.lang.Utils;
 import com.dtstack.agent.prop.NewLand;
 import com.dtstack.agent.prop.Plats;
+import com.dtstack.agent.vo.TenantVo;
 import com.dtstack.agent.vo.UrlVo;
 import com.dtstack.agent.vo.UserVo;
 import com.dtstack.plat.lang.base.JSONs;
@@ -100,7 +101,7 @@ public class UserService {
      * 获取所有用户信息
      * @return
      */
-    public List<UserVo> getAllUser(){
+    public List<TenantVo> getAllUser(){
         try{
             URI uri=UriComponentsBuilder.fromUriString(newLand.getAllUserUrl())
                     .build().toUri();
@@ -122,7 +123,7 @@ public class UserService {
             inputStream.close();
             httpURLConnection.disconnect();
 
-            R<List<UserVo>> resp= JSONs.fromJSON(message, new TypeReference<R<List<UserVo>>>() {});
+            R<List<TenantVo>> resp= JSONs.fromJSON(message, new TypeReference<R<List<TenantVo>>>() {});
             log.info("返回响应码:{},msg:{}, 内容:{}",respSt,message,resp.getData());
             if(respSt==HttpStatus.OK.value()){
                 return   resp.getData();
